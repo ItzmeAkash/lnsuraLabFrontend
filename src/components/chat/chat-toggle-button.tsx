@@ -1,3 +1,4 @@
+import { useEmbedConfig } from "@/components/embed/embed-config-provider";
 import { INSURA_AVATAR_SRC } from "@/lib/brand";
 import { cn } from "@/lib/cn";
 import Image from "next/image";
@@ -7,13 +8,18 @@ type ChatToggleButtonProps = {
 };
 
 export function ChatToggleButton({ onClick }: ChatToggleButtonProps) {
+  const { mode } = useEmbedConfig();
+
   return (
     <button
       type="button"
       onClick={onClick}
       aria-label="Chat with Insura"
       className={cn(
-        "relative h-14 w-14 overflow-hidden rounded-full border-2 border-white bg-neutral-900 shadow-[0_8px_32px_rgba(0,0,0,0.5)] transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-black",
+        "relative h-14 w-14 overflow-hidden rounded-full border-2 border-white bg-neutral-900 transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-black",
+        mode === "embed"
+          ? "shadow-[0_4px_16px_rgba(0,0,0,0.2)]"
+          : "shadow-[0_8px_32px_rgba(0,0,0,0.5)]",
       )}
     >
       <Image

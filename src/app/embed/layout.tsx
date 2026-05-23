@@ -4,6 +4,8 @@ export default function EmbedLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="h-full min-h-screen bg-transparent">{children}</div>
+    <div data-embed-root className="h-full w-full bg-transparent">
+      {children}
+    </div>
   );
 }

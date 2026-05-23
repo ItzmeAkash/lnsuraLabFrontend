@@ -37,9 +37,16 @@ body {
   font-family: var(--font-geist-sans), system-ui, sans-serif;
 }
 
+/* Embed iframe: transparent page chrome (no grey box behind the widget) */
+html:has([data-embed-root]),
+html:has([data-embed-root]) body,
 body.embed-route {
-  background: transparent;
+  background: transparent !important;
   overflow: hidden;
+}
+
+html:has([data-embed-root]) {
+  height: 100%;
 }
 
 @keyframes chat-typing-bounce {

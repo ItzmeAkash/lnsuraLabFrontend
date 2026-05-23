@@ -149,7 +149,10 @@ export function ChatPanel({ open, onClose }: ChatPanelProps) {
       role="dialog"
       aria-label="Chat with Insura"
       className={cn(
-        "fixed z-[100] flex w-[min(100vw-2rem,400px)] flex-col overflow-hidden rounded-2xl border border-neutral-200/80 bg-[#f0f0f0] shadow-[0_16px_56px_rgba(0,0,0,0.45)] transition-all duration-300 ease-out",
+        "fixed z-[100] flex w-[min(100vw-2rem,400px)] flex-col overflow-hidden rounded-2xl border border-neutral-200/80 bg-[#f0f0f0] transition-all duration-300 ease-out",
+        isEmbed
+          ? "shadow-[0_4px_20px_rgba(0,0,0,0.12)]"
+          : "shadow-[0_16px_56px_rgba(0,0,0,0.45)]",
         positionClass,
         minimized ? "h-auto" : "h-[min(560px,calc(100vh-10rem))]",
       )}

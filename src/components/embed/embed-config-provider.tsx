@@ -23,8 +23,10 @@ export function EmbedConfigProvider({
 }: EmbedConfigProviderProps) {
   useEffect(() => {
     if (mode !== "embed") return;
+    document.documentElement.classList.add("embed-route");
     document.body.classList.add("embed-route");
     return () => {
+      document.documentElement.classList.remove("embed-route");
       document.body.classList.remove("embed-route");
     };
   }, [mode]);

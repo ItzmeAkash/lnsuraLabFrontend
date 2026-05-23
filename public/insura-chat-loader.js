@@ -37,6 +37,8 @@
     "max-width:100vw",
     "border:none",
     "background:transparent",
+    "background-color:transparent",
+    "overflow:hidden",
     "z-index:2147483647",
     "color-scheme:light",
   ].join(";");
