@@ -31,6 +31,37 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This app is a standard Next.js project — Vercel auto-detects build settings.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Option A — Vercel CLI (fastest)
+
+```bash
+vercel login
+vercel link          # first time only — pick team & project name
+vercel env add NEXT_PUBLIC_API_URL production   # your backend API URL
+vercel --prod
+```
+
+Preview deploy (no production alias):
+
+```bash
+vercel
+```
+
+### Option B — GitHub + Vercel dashboard
+
+1. Push this repo to GitHub.
+2. [Import the repo on Vercel](https://vercel.com/new).
+3. Add environment variable **`NEXT_PUBLIC_API_URL`** (Production + Preview).
+4. Deploy — no custom build command needed (`next build` is default).
+
+### After deploy
+
+- Site: `https://<your-project>.vercel.app`
+- Embed script for partners:
+
+  ```html
+  <script src="https://<your-project>.vercel.app/insura-chat-loader.js" async></script>
+  ```
+
+See [EMBED.md](./EMBED.md) for iframe and local testing.
