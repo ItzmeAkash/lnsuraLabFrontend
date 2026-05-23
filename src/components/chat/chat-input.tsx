@@ -66,7 +66,7 @@ export function ChatInput({
           type="submit"
           disabled={!canSend || disabled}
           aria-label="Send message"
-          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-neutral-200 text-neutral-600 transition-colors hover:bg-neutral-300 disabled:opacity-40"
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand text-white transition-colors hover:bg-brand/90 disabled:bg-neutral-200 disabled:text-neutral-400"
         >
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 19V5M5 12l7-7 7 7" />
