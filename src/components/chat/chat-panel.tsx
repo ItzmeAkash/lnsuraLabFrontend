@@ -132,7 +132,7 @@ function flowStepToMessages(step: ChatWsFlowStep): ChatMessage[] {
 }
 
 export function ChatPanel({ open, onClose }: ChatPanelProps) {
-  const { mode, chatbotName, brokerName } = useEmbedConfig();
+  const { mode, chatbotName, brokerName, partnerId } = useEmbedConfig();
   const isEmbed = mode === "embed";
   const positionClass = isEmbed
     ? "right-4 bottom-4"
@@ -188,6 +188,7 @@ export function ChatPanel({ open, onClose }: ChatPanelProps) {
     enabled: open,
     chatbotName,
     brokerName,
+    partnerId,
     onFlowStep: handleFlowStep,
     onExtractionResult: handleExtractionResult,
     onCleared: handleCleared,

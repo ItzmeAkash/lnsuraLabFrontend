@@ -18,6 +18,7 @@ const defaultConfig: InsuraChatEmbedConfig = {
   mode: "site",
   chatbotName: DEFAULT_CHATBOT_NAME,
   brokerName: DEFAULT_BROKER_NAME,
+  partnerId: "",
 };
 
 const EmbedConfigContext = createContext<InsuraChatEmbedConfig>(defaultConfig);
@@ -28,6 +29,7 @@ type EmbedConfigProviderProps = {
   /** Override from embed URL or script data attributes */
   chatbotName?: string | null;
   brokerName?: string | null;
+  partnerId?: string | null;
 };
 
 export function EmbedConfigProvider({
@@ -35,6 +37,7 @@ export function EmbedConfigProvider({
   mode = "site",
   chatbotName: chatbotNameProp,
   brokerName: brokerNameProp,
+  partnerId: partnerIdProp,
 }: EmbedConfigProviderProps) {
   useEffect(() => {
     if (mode !== "embed") return;
@@ -54,8 +57,9 @@ export function EmbedConfigProvider({
       mode,
       chatbotName: resolveChatbotName(chatbotNameProp),
       brokerName: resolveBrokerName(brokerNameProp),
+      partnerId: partnerIdProp?.trim() ?? "",
     }),
-    [mode, chatbotNameProp, brokerNameProp],
+    [mode, chatbotNameProp, brokerNameProp, partnerIdProp],
   );
 
   return (

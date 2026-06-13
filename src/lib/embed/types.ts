@@ -10,4 +10,6 @@ export type InsuraChatEmbedConfig = {
   chatbotName: string;
   /** Partner / broker business name */
   brokerName: string;
+  /** Partner id — used server-side to pick CHAT_API_KEY_<PARTNER_ID> from .env */
+  partnerId: string;
 };

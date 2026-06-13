@@ -28,6 +28,10 @@
     script.getAttribute("data-broker-name") ||
     script.getAttribute("data-broker") ||
     "";
+  var partnerId =
+    script.getAttribute("data-partner-id") ||
+    script.getAttribute("data-partner") ||
+    "";
 
   var iframeId = "insura-chat-embed-iframe";
   if (document.getElementById(iframeId)) return;
@@ -35,6 +39,7 @@
   var embedParams = new URLSearchParams();
   if (chatbotName.trim()) embedParams.set("chatbot", chatbotName.trim());
   if (brokerName.trim()) embedParams.set("broker", brokerName.trim());
+  if (partnerId.trim()) embedParams.set("partner", partnerId.trim());
   var embedQuery = embedParams.toString();
   var embedPath = "/embed/chat" + (embedQuery ? "?" + embedQuery : "");
 

@@ -13,9 +13,17 @@ export type ChatSessionResponse = {
  * Exchange server-side CHAT_API_KEY for a short-lived session_id.
  * Browser never sees the API key.
  */
-export async function POST() {
+export async function POST(request: Request) {
+  let partnerId = "";
+  try {
+    const body = (await request.json()) as { partner_id?: string };
+    partnerId = body.partner_id?.trim() ?? "";
+  } catch {
+    // Empty body is fine — uses default CHAT_API_KEY
+  }
+
   const sessionsUrl = getChatSessionsUrl();
-  const apiKey = getChatApiKey();
+  const apiKey = getChatApiKey(partnerId || undefined);
 
   if (!sessionsUrl || !apiKey) {
     return NextResponse.json(

@@ -37,13 +37,19 @@ type UseChatWebSocketOptions = {
   enabled: boolean;
   chatbotName: string;
   brokerName: string;
+  partnerId?: string;
   onFlowStep?: (step: ChatWsFlowStep) => void;
   onExtractionResult?: (result: ChatWsExtractionResult) => void;
   onCleared?: () => void;
 };
 
-async function fetchChatSession(): Promise<ChatSession> {
-  const res = await fetch(SESSION_ENDPOINT, { method: "POST", cache: "no-store" });
+async function fetchChatSession(partnerId?: string): Promise<ChatSession> {
+  const res = await fetch(SESSION_ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ partner_id: partnerId?.trim() || undefined }),
+    cache: "no-store",
+  });
   if (!res.ok) {
     const body = (await res.json().catch(() => null)) as { error?: string } | null;
     throw new Error(body?.error ?? "Failed to start chat session");
@@ -68,6 +74,7 @@ export function useChatWebSocket({
   enabled,
   chatbotName,
   brokerName,
+  partnerId,
   onFlowStep,
   onExtractionResult,
   onCleared,
@@ -289,7 +296,7 @@ export function useChatWebSocket({
 
       try {
         const [session, wsUrl] = await Promise.all([
-          fetchChatSession(),
+          fetchChatSession(partnerId),
           fetchWebSocketUrl(),
         ]);
         if (cancelled) return;
@@ -367,6 +374,7 @@ export function useChatWebSocket({
   }, [
     brokerName,
     chatbotName,
+    partnerId,
     clearPingTimer,
     enabled,
     failPending,

@@ -13,7 +13,21 @@ export function getChatApiUrl(): string {
   );
 }
 
-export function getChatApiKey(): string {
+function normalizePartnerEnvKey(partnerId: string): string {
+  return partnerId
+    .trim()
+    .replace(/[^a-zA-Z0-9]/g, "_")
+    .toUpperCase();
+}
+
+/** Resolve API key: CHAT_API_KEY_<PARTNER_ID> first, then CHAT_API_KEY fallback. */
+export function getChatApiKey(partnerId?: string): string {
+  const normalized = partnerId?.trim();
+  if (normalized) {
+    const envName = `CHAT_API_KEY_${normalizePartnerEnvKey(normalized)}`;
+    const partnerKey = process.env[envName]?.trim();
+    if (partnerKey) return partnerKey;
+  }
   return process.env.CHAT_API_KEY?.trim() ?? "";
 }
 

@@ -15,12 +15,17 @@ export function InsuraChatEmbedPage() {
     searchParams.get("broker") ??
     searchParams.get("broker-name") ??
     searchParams.get("brokerName");
+  const partnerId =
+    searchParams.get("partner") ??
+    searchParams.get("partner-id") ??
+    searchParams.get("partnerId");
 
   return (
     <EmbedConfigProvider
       mode="embed"
       chatbotName={chatbotName}
       brokerName={brokerName}
+      partnerId={partnerId}
     >
       <ChatWidgetProvider />
     </EmbedConfigProvider>
