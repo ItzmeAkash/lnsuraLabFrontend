@@ -8,6 +8,7 @@ type ChatAgentAvatarProps = {
   priority?: boolean;
 };
 
+
 const sizeClass = {
   sm: "h-9 w-9",
   md: "h-12 w-12",
