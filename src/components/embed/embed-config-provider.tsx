@@ -1,13 +1,23 @@
 "use client";
 
 import { getApiBaseUrl } from "@/lib/api/config";
+import {
+  DEFAULT_BROKER_NAME,
+  DEFAULT_CHATBOT_NAME,
+} from "@/lib/embed/defaults";
 import type { EmbedMode, InsuraChatEmbedConfig } from "@/lib/embed/types";
+import {
+  resolveBrokerName,
+  resolveChatbotName,
+} from "@/lib/chat-greeting";
 import { createContext, useContext, useEffect, useMemo } from "react";
 
 const defaultConfig: InsuraChatEmbedConfig = {
   host: "",
   apiBaseUrl: "",
   mode: "site",
+  chatbotName: DEFAULT_CHATBOT_NAME,
+  brokerName: DEFAULT_BROKER_NAME,
 };
 
 const EmbedConfigContext = createContext<InsuraChatEmbedConfig>(defaultConfig);
@@ -15,11 +25,16 @@ const EmbedConfigContext = createContext<InsuraChatEmbedConfig>(defaultConfig);
 type EmbedConfigProviderProps = {
   children: React.ReactNode;
   mode?: EmbedMode;
+  /** Override from embed URL or script data attributes */
+  chatbotName?: string | null;
+  brokerName?: string | null;
 };
 
 export function EmbedConfigProvider({
   children,
   mode = "site",
+  chatbotName: chatbotNameProp,
+  brokerName: brokerNameProp,
 }: EmbedConfigProviderProps) {
   useEffect(() => {
     if (mode !== "embed") return;
@@ -37,8 +52,10 @@ export function EmbedConfigProvider({
         typeof window !== "undefined" ? window.location.origin : "",
       apiBaseUrl: getApiBaseUrl(),
       mode,
+      chatbotName: resolveChatbotName(chatbotNameProp),
+      brokerName: resolveBrokerName(brokerNameProp),
     }),
-    [mode],
+    [mode, chatbotNameProp, brokerNameProp],
   );
 
   return (

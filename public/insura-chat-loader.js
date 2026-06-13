@@ -20,13 +20,28 @@
     return;
   }
 
+  var chatbotName =
+    script.getAttribute("data-chatbot-name") ||
+    script.getAttribute("data-chatbot") ||
+    "";
+  var brokerName =
+    script.getAttribute("data-broker-name") ||
+    script.getAttribute("data-broker") ||
+    "";
+
   var iframeId = "insura-chat-embed-iframe";
   if (document.getElementById(iframeId)) return;
+
+  var embedParams = new URLSearchParams();
+  if (chatbotName.trim()) embedParams.set("chatbot", chatbotName.trim());
+  if (brokerName.trim()) embedParams.set("broker", brokerName.trim());
+  var embedQuery = embedParams.toString();
+  var embedPath = "/embed/chat" + (embedQuery ? "?" + embedQuery : "");
 
   var iframe = document.createElement("iframe");
   iframe.id = iframeId;
   iframe.title = "Insura Chat";
-  iframe.src = host + "/embed/chat";
+  iframe.src = host + embedPath;
   iframe.setAttribute("allow", "clipboard-write");
   iframe.style.cssText = [
     "position:fixed",

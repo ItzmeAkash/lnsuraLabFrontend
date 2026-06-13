@@ -6,11 +6,26 @@ export type ChatAttachment = {
   url: string;
 };
 
+export type ChatFlowOption = {
+  id: string;
+  label: string;
+};
+
+export type ChatUiBlock = {
+  block_type: string;
+  title?: string;
+  message?: string;
+  url: string;
+  button_label?: string;
+};
+
 export type ChatMessage = {
   id: string;
   text: string;
   from: "user" | "agent";
   attachments?: ChatAttachment[];
+  options?: ChatFlowOption[];
+  uiBlocks?: ChatUiBlock[];
 };
 
 export const CHAT_ACCEPTED_FILE_TYPES =

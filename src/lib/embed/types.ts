@@ -6,4 +6,8 @@ export type InsuraChatEmbedConfig = {
   /** Internal backend — from NEXT_PUBLIC_API_URL only */
   apiBaseUrl: string;
   mode: EmbedMode;
+  /** Display name for the AI assistant */
+  chatbotName: string;
+  /** Partner / broker business name */
+  brokerName: string;
 };

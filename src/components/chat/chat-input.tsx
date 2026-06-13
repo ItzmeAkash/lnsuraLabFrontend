@@ -1,7 +1,7 @@
 "use client";
 
 import { CHAT_ACCEPTED_FILE_TYPES } from "@/lib/chat-types";
-import { FormEvent, useRef } from "react";
+import { FormEvent, useEffect, useRef } from "react";
 
 type ChatInputProps = {
   value: string;
@@ -10,6 +10,7 @@ type ChatInputProps = {
   onFilesSelected: (files: FileList) => void;
   disabled?: boolean;
   canSend?: boolean;
+  autoFocus?: boolean;
 };
 
 export function ChatInput({
@@ -19,15 +20,44 @@ export function ChatInput({
   onFilesSelected,
   disabled = false,
   canSend = false,
+  autoFocus = false,
 }: ChatInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const textInputRef = useRef<HTMLInputElement>(null);
+  const wasDisabledRef = useRef(disabled);
+
+  const focusInput = () => {
+    requestAnimationFrame(() => {
+      textInputRef.current?.focus();
+    });
+  };
+
+  useEffect(() => {
+    if (autoFocus && !disabled) {
+      focusInput();
+    }
+  }, [autoFocus, disabled]);
+
+  useEffect(() => {
+    if (wasDisabledRef.current && !disabled) {
+      focusInput();
+    }
+    wasDisabledRef.current = disabled;
+  }, [disabled]);
 
   const openFilePicker = () => {
     fileInputRef.current?.click();
   };
 
+  const handleSubmit = (e: FormEvent) => {
+    onSubmit(e);
+    if (!disabled) {
+      focusInput();
+    }
+  };
+
   return (
-    <form onSubmit={onSubmit} className="px-3 pb-2">
+    <form onSubmit={handleSubmit} className="px-3 pb-2">
       <input
         ref={fileInputRef}
         type="file"
@@ -55,6 +85,7 @@ export function ChatInput({
           </svg>
         </button>
         <input
+          ref={textInputRef}
           type="text"
           value={value}
           onChange={(e) => onChange(e.target.value)}
@@ -66,6 +97,7 @@ export function ChatInput({
           type="submit"
           disabled={!canSend || disabled}
           aria-label="Send message"
+          onMouseDown={(e) => e.preventDefault()}
           className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand text-white transition-colors hover:bg-brand/90 disabled:bg-neutral-200 disabled:text-neutral-400"
         >
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>

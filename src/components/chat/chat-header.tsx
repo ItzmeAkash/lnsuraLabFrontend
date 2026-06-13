@@ -1,5 +1,6 @@
 import { ChatAgentAvatar } from "@/components/chat/chat-agent-avatar";
 import { ChatToolbarButton } from "@/components/chat/chat-toolbar-button";
+import { useEmbedConfig } from "@/components/embed/embed-config-provider";
 
 type ChatHeaderProps = {
   minimized: boolean;
@@ -12,12 +13,16 @@ export function ChatHeader({
   onMinimize,
   onClose,
 }: ChatHeaderProps) {
+  const { chatbotName } = useEmbedConfig();
+
   return (
     <header className="flex shrink-0 items-center gap-3 border-b border-neutral-200 bg-white px-3 py-3">
       <ChatAgentAvatar size="md" priority />
 
       <div className="min-w-0 flex-1">
-        <p className="text-sm font-bold leading-tight text-neutral-900">Insura</p>
+        <p className="text-sm font-bold leading-tight text-neutral-900">
+          {chatbotName}
+        </p>
         <p className="text-xs text-neutral-500">AI assistant</p>
       </div>
 
