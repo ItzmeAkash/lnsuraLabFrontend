@@ -34,34 +34,57 @@
     "";
 
   var iframeId = "insura-chat-embed-iframe";
-  if (document.getElementById(iframeId)) return;
+  var COLLAPSED_SIZE = 88;
 
-  var embedParams = new URLSearchParams();
-  if (chatbotName.trim()) embedParams.set("chatbot", chatbotName.trim());
-  if (brokerName.trim()) embedParams.set("broker", brokerName.trim());
-  if (partnerId.trim()) embedParams.set("partner", partnerId.trim());
-  var embedQuery = embedParams.toString();
-  var embedPath = "/embed/chat" + (embedQuery ? "?" + embedQuery : "");
+  function applyIframeSize(iframe, width, height) {
+    iframe.style.width = width + "px";
+    iframe.style.height = height + "px";
+  }
 
-  var iframe = document.createElement("iframe");
-  iframe.id = iframeId;
-  iframe.title = "Insura Chat";
-  iframe.src = host + embedPath;
-  iframe.setAttribute("allow", "clipboard-write");
-  iframe.style.cssText = [
-    "position:fixed",
-    "bottom:0",
-    "right:0",
-    "width:420px",
-    "height:min(720px,100vh)",
-    "max-width:100vw",
-    "border:none",
-    "background:transparent",
-    "background-color:transparent",
-    "overflow:hidden",
-    "z-index:2147483647",
-    "color-scheme:light",
-  ].join(";");
+  function mountIframe() {
+    if (document.getElementById(iframeId)) return;
 
-  document.body.appendChild(iframe);
+    var embedParams = new URLSearchParams();
+    if (chatbotName.trim()) embedParams.set("chatbot", chatbotName.trim());
+    if (brokerName.trim()) embedParams.set("broker", brokerName.trim());
+    if (partnerId.trim()) embedParams.set("partner", partnerId.trim());
+    var embedQuery = embedParams.toString();
+    var embedPath = "/embed/chat" + (embedQuery ? "?" + embedQuery : "");
+
+    var iframe = document.createElement("iframe");
+    iframe.id = iframeId;
+    iframe.title = "Insura Chat";
+    iframe.src = host + embedPath;
+    iframe.setAttribute("allow", "clipboard-write");
+    iframe.style.cssText = [
+      "position:fixed",
+      "bottom:0",
+      "right:0",
+      "width:" + COLLAPSED_SIZE + "px",
+      "height:" + COLLAPSED_SIZE + "px",
+      "max-width:100vw",
+      "border:none",
+      "background:transparent",
+      "background-color:transparent",
+      "overflow:hidden",
+      "z-index:2147483647",
+      "color-scheme:light",
+    ].join(";");
+
+    window.addEventListener("message", function (event) {
+      if (event.origin !== host) return;
+      var data = event.data;
+      if (!data || data.type !== "insura-chat:resize") return;
+      if (typeof data.width !== "number" || typeof data.height !== "number") return;
+      applyIframeSize(iframe, data.width, data.height);
+    });
+
+    document.body.appendChild(iframe);
+  }
+
+  if (document.body) {
+    mountIframe();
+  } else {
+    document.addEventListener("DOMContentLoaded", mountIframe);
+  }
 })();

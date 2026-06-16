@@ -4,6 +4,10 @@ import { ChatPanel } from "@/components/chat/chat-panel";
 import { ChatToggleButton } from "@/components/chat/chat-toggle-button";
 import { useEmbedConfig } from "@/components/embed/embed-config-provider";
 import { cn } from "@/lib/cn";
+import {
+  getEmbedIframeSize,
+  postEmbedResizeToParent,
+} from "@/lib/embed/parent-resize";
 import { useEffect, useState } from "react";
 
 export function ChatFloatingWidget() {
@@ -23,6 +27,22 @@ export function ChatFloatingWidget() {
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [open]);
+
+  useEffect(() => {
+    if (!isEmbed) return;
+
+    const syncIframeSize = () => {
+      const { width, height } = getEmbedIframeSize(open);
+      postEmbedResizeToParent(width, height);
+    };
+
+    syncIframeSize();
+
+    if (!open) return;
+
+    window.addEventListener("resize", syncIframeSize);
+    return () => window.removeEventListener("resize", syncIframeSize);
+  }, [isEmbed, open]);
 
   return (
     <>
