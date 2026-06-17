@@ -34,7 +34,7 @@
     "";
 
   var iframeId = "insura-chat-embed-iframe";
-  var COLLAPSED_SIZE = 88;
+  var COLLAPSED_SIZE = 112;
 
   function applyIframeSize(iframe, width, height) {
     iframe.style.width = width + "px";

@@ -6,7 +6,8 @@ export type InsuraChatResizeMessage = {
   height: number;
 };
 
-const COLLAPSED_SIZE = 88;
+/** Matches launcher (64px) + padding + pulse ring overflow in embed iframe */
+const COLLAPSED_SIZE = 112;
 const EXPANDED_WIDTH = 420;
 const EXPANDED_MAX_HEIGHT = 720;
 
